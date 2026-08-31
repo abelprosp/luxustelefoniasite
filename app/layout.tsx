@@ -11,8 +11,16 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+function metadataBaseUrl() {
+  try {
+    return new URL(site.url);
+  } catch {
+    return new URL("https://luxustelefonia.com.br");
+  }
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: metadataBaseUrl(),
   title: {
     default: site.title,
     template: `%s | ${site.name}`,

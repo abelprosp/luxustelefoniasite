@@ -3,6 +3,18 @@
  * Tudo o que pode ir para CMS, CRM ou variáveis de ambiente vive aqui.
  */
 
+const FALLBACK_SITE_URL = "https://luxustelefonia.com.br";
+
+function siteUrl() {
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (fromEnv) return fromEnv.replace(/\/$/, "");
+  const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (productionHost) return `https://${productionHost.replace(/^https?:\/\//, "")}`;
+  const vercelHost = process.env.VERCEL_URL?.trim();
+  if (vercelHost) return `https://${vercelHost.replace(/^https?:\/\//, "")}`;
+  return FALLBACK_SITE_URL;
+}
+
 export const site = {
   name: "Luxus Telefonia",
   shortName: "Luxus",
@@ -13,7 +25,7 @@ export const site = {
   description:
     "Conheça a Luxus Telefonia. Planos, telefonia, conectividade, suporte e soluções para pessoas e empresas.",
   title: "Luxus Telefonia | Telefonia simples, inteligente e humana",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://luxustelefonia.com.br",
+  url: siteUrl(),
   locale: "pt_BR",
   foundedYear: Number(process.env.NEXT_PUBLIC_FOUNDED_YEAR ?? 2007),
   clientPortalUrl: process.env.NEXT_PUBLIC_CLIENT_PORTAL_URL ?? "",
